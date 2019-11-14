@@ -20,8 +20,10 @@ public class Main {
 						Integer.parseInt(parts[0].split(",")[1])+").";
 				
 				System.out.println(Dimension);
+				/*String IronMan="ironman("+Integer.parseInt(parts[1].split(",")[0])+","+
+						Integer.parseInt(parts[1].split(",")[1])+",0,s).";*/
 				String IronMan="ironman("+Integer.parseInt(parts[1].split(",")[0])+","+
-						Integer.parseInt(parts[1].split(",")[1])+",0,s).";
+						Integer.parseInt(parts[1].split(",")[1])+",s).";
 				String thanos="thanos("+Integer.parseInt(parts[2].split(",")[0])+","+
 						Integer.parseInt(parts[2].split(",")[1])+",s).";
 				
@@ -64,6 +66,6 @@ public class Main {
 	
 	public static void main(String[]args) {
 		System.out.println("Hello");
-		GenGrid("5,5;1,2;3,4;1,1,2,1,2,2,3,3");
+		GenGrid("3,3;1,2;1,1;0,0,1,0,0,1");
 	}
 }
