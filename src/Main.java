@@ -23,9 +23,9 @@ public class Main {
 				/*String IronMan="ironman("+Integer.parseInt(parts[1].split(",")[0])+","+
 						Integer.parseInt(parts[1].split(",")[1])+",0,s).";*/
 				String IronMan="ironman("+Integer.parseInt(parts[1].split(",")[0])+","+
-						Integer.parseInt(parts[1].split(",")[1])+",s).";
+						Integer.parseInt(parts[1].split(",")[1])+",s0).";
 				String thanos="thanos("+Integer.parseInt(parts[2].split(",")[0])+","+
-						Integer.parseInt(parts[2].split(",")[1])+",s).";
+						Integer.parseInt(parts[2].split(",")[1])+",s0).";
 				
 				
 				BufferedWriter writer = new BufferedWriter(new FileWriter("KB.pl"));
@@ -40,7 +40,7 @@ public class Main {
 		    	for(int i=0;i+1<StonesStrings.length;i+=2)
 		    	{
 		    		String stone="stone("+Integer.parseInt(StonesStrings[i])+","+
-		    				Integer.parseInt(StonesStrings[i+1])+",s).";
+		    				Integer.parseInt(StonesStrings[i+1])+",s0).";
 		    		writer.append("\n");
 					writer.append(stone);
 		    		
@@ -65,9 +65,8 @@ public class Main {
 	
 	
 	public static void main(String[]args) {
-		System.out.println("Hello");
 		
 		GenGrid("5,5;1,2;3,4;1,1,2,1,2,2,3,3");
-		//GenGrid("3,3;0,0;1,1;2,0,1,0,0,1,0,2");
+		//GenGrid("3,3;0,0;1,1;2,0,1,0,2,1,2,2");
 	}
 }
