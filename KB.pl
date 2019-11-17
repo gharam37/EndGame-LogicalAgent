@@ -1,4 +1,7 @@
-limits(2,2).
-ironman(1,0,s).
-thanos(1,1,s).
-stone(0,0,s).
+limits(5,5).
+ironman(1,2,s).
+thanos(3,4,s).
+stone(1,1,s).
+stone(2,1,s).
+stone(2,2,s).
+stone(3,3,s).

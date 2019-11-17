@@ -14,7 +14,7 @@ ironman(X,Y,result(left,S)):-
     Y is ( NY-1),
     all_stones_collected(S),
     thanos(X,Y,S).
-    
+
 
 /*Down*/
 ironman(X,Y,result(right,S)):-
@@ -32,8 +32,8 @@ ironman(X,Y,result(right,S)):-
     Y is ( NY+1),
     all_stones_collected(S),
     thanos(X,Y,S).
-    
-    
+
+
 /*Left*/
 ironman(X,Y,result(up,S)):-
     ironman(NX,Y,S),
@@ -107,7 +107,7 @@ stone(X,Y,result(A,S)):-
     A = right;
     A= left
     ).
-    
+
 stone(X,Y,result(collect,S)):-
     stone(X,Y,S),
     \+ ironman(X,Y,S).
@@ -121,16 +121,15 @@ stone_collected(X,Y,result(A,S)):-
     A = up;
     A = down;
     A = right;
-    A = left;
-    A = collect
+    A = left
     ).
 
 
 
 all_stones_collected(S):-
  foreach(stone(X,Y,s),stone_collected(X,Y,S)).
- 
- 
+
+
 all_stones_collected(result(A,S)):-
    all_stones_collected(S),
     (
@@ -140,36 +139,28 @@ all_stones_collected(result(A,S)):-
     A = left
     ).
 
- 
 
 
 
 
+query(S):-
+    ironman(_,_,S).
+    /*S = result(snap,_). */
 
 
-depth_snapped(result(snap,S),N,L):-
+
+query_with_depth(result(snap,S),N,L):-
     (
     call_with_depth_limit(ironman(_,_,result(snap,S)),N,L),
     \+ L = depth_limit_exceeded
     );
     (
     F is N+1,
-    depth_snapped(result(snap,S),F,L)
+    query_with_depth(result(snap,S),F,L)
     ).
-    
+start(S):-
+    query_with_depth(S,0,_).
 
-q(S,N,L):-
-    (
-    call_with_depth_limit(all_stones_collected(S),N,L),
-    \+ L = depth_limit_exceeded
-    );
-    (
-    F is N+1,
-    q(S,F,L)
-    ).
-snapped(S):-
-    depth_snapped(S,0,_).
-    
 
 
 

@@ -6,7 +6,14 @@
 ironman(X,Y,result(left,S)):-
     ironman(X,NY,S),
     NY>0,
-    Y is ( NY-1).
+    Y is ( NY-1),
+    \+thanos(X,Y,S).
+ironman(X,Y,result(left,S)):-
+    ironman(X,NY,S),
+    NY>0,
+    Y is ( NY-1),
+    all_stones_collected(S),
+    thanos(X,Y,S).
     
 
 /*Down*/
@@ -15,14 +22,32 @@ ironman(X,Y,result(right,S)):-
     limits(_,W),
     MaxHeight is W-1,
     NY < MaxHeight,
-    Y is ( NY+1).
+    Y is ( NY+1),
+    \+thanos(X,Y,S).
+ironman(X,Y,result(right,S)):-
+    ironman(X,NY,S),
+    limits(_,W),
+    MaxHeight is W-1,
+    NY < MaxHeight,
+    Y is ( NY+1),
+    all_stones_collected(S),
+    thanos(X,Y,S).
     
     
 /*Left*/
 ironman(X,Y,result(up,S)):-
     ironman(NX,Y,S),
     NX>0,
-    X is ( NX-1).
+    X is ( NX-1),
+    \+thanos(X,Y,S).
+ironman(X,Y,result(up,S)):-
+    ironman(NX,Y,S),
+    NX>0,
+    X is ( NX-1),
+    all_stones_collected(S),
+    thanos(X,Y,S).
+
+
 
 
 
@@ -32,12 +57,21 @@ ironman(X,Y,result(down,S)):-
     limits(W,_),
     MaxWidth is W-1,
     NX < MaxWidth,
-    X is ( NX+1).
+    X is ( NX+1),
+    \+thanos(X,Y,S).
+ironman(X,Y,result(down,S)):-
+    ironman(NX,Y,S),
+    limits(W,_),
+    MaxWidth is W-1,
+    NX < MaxWidth,
+    X is ( NX+1),
+    all_stones_collected(S),
+    thanos(X,Y,S).
 
 
 
 ironman(X,Y,result(snap,S)):-
-    all_stones_collected(S).
+    all_stones_collected(S),
      ironman(X,Y,S),
      thanos(X,Y,S).
 
@@ -87,7 +121,8 @@ stone_collected(X,Y,result(A,S)):-
     A = up;
     A = down;
     A = right;
-    A = left
+    A = left;
+    A = collect
     ).
 
 
@@ -109,23 +144,31 @@ all_stones_collected(result(A,S)):-
 
 
 
-query(S):-
-    ironman(_,_,S).
-    /*S = result(snap,_). */
 
 
 
-query_with_depth(result(snap,S),N,L):-
+depth_snapped(result(snap,S),N,L):-
     (
     call_with_depth_limit(ironman(_,_,result(snap,S)),N,L),
     \+ L = depth_limit_exceeded
     );
     (
     F is N+1,
-    query_with_depth(result(snap,S),F,L)
+    depth_snapped(result(snap,S),F,L)
+    ).
+    
+
+q(S,N,L):-
+    (
+    call_with_depth_limit(all_stones_collected(S),N,L),
+    \+ L = depth_limit_exceeded
+    );
+    (
+    F is N+1,
+    q(S,F,L)
     ).
 start(S):-
-    query_with_depth(S,0,_).
+    depth_snapped(S,0,_).
     
 
 
