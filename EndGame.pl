@@ -149,12 +149,14 @@ all_stones_collected(result(A,S)):-
 
 
 
+dfs_snapped(result(snap,S)):-
+     ironman(_,_,result(snap,S)).
 
 
 /*check if ironman snapped but using Depth limited search*/
 depth_snapped(result(snap,S),N,LENGTH):-
     (
-    call_with_depth_limit(ironman(_,_,result(snap,S)),N,LENGTH),
+    call_with_depth_limit(dfs_snapped(result(snap,S)),N,LENGTH),
     \+ LENGTH = depth_limit_exceeded
     );
     (
@@ -163,7 +165,7 @@ depth_snapped(result(snap,S),N,LENGTH):-
     ).
 
 /*Start querying from depth 0*/
-snapped(S):-
+ids_snapped(S):-
     depth_snapped(S,0,_).
     
 
